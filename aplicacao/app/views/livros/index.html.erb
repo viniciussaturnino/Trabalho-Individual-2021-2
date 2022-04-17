@@ -1,0 +1,36 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Livros</h1>
+
+<div id="livros">
+  <div class="table-responsive"> 
+  <table class="table table-hover">
+  <thead class="thead-light">
+    <tr>
+      <th>Título</th>
+      <th>Autor</th>
+      <th>Ano</th>
+      <th>Editora</th>
+      <th>Livro Eletrônico</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @livros.each do |livro| %>
+      <tr>
+        <td><%= livro.titulo %></td>
+        <td><%= livro.autor %></td>
+        <td><%= livro.ano %></td>
+        <td><%= livro.editora %></td>
+        <td><%= livro.livro_eletronico %></td>
+        <td><%= link_to 'Mostrar', livro, :class => "btn btn-primary" %></td>
+        <td><%= link_to 'Editar', edit_livro_path(livro), :class => "btn btn-secondary" %></td>
+        <td><%= link_to 'Apagar', livro, method: :delete, data: { confirm: 'Tem certeza?' }, :class => "btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+  </div>
+</div>
+<div id="adicionar">
+<%= link_to "Adicionar livro", new_livro_path, :class => "btn btn-primary" %>
+</div>

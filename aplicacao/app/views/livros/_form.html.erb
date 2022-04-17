@@ -1,0 +1,47 @@
+<%= form_with(model: livro) do |form| %>
+  <% if livro.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(livro.errors.count, "error") %> sem permissão para salvar:</h2>
+
+      <ul>
+        <% livro.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :titulo, style: "display: block" %>
+    <%= form.text_field :titulo, :class => "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :autor, style: "display: block" %>
+    <%= form.text_field :autor, :class => "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :ano, style: "display: block" %>
+    <%= form.number_field :ano, :class => "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :editora, style: "display: block" %>
+    <%= form.text_field :editora, :class => "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :edicao, style: "display: block" %>
+    <%= form.number_field :edicao, :class => "form-control"  %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :livro_eletronico, style: "display: block" %>
+    <%= form.check_box :livro_eletronico %>
+  </div>
+
+  <div>
+    <%= form.submit "Salvar", class: 'btn btn-success'  %>
+  </div>
+<% end %>
