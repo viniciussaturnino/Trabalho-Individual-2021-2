@@ -1,0 +1,38 @@
+version: '3.2'
+
+services:
+  app:
+    build:
+      context: aplicacao
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - app
+    volumes:
+      - ./aplicacao:/app
+
+  db:
+    image: postgres:13
+    restart: always
+    command: -p 5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    networks:
+      - app
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+
+networks:
+  app:
+    driver: bridge
