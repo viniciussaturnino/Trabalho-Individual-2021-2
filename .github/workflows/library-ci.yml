@@ -2,31 +2,28 @@ name: Library-CI
 
 on:
   push:
-    branches: [master]
-    paths:
-      - "aplicacao/**"
+    branches: [main]
   pull_request:
-    branches: [master]
-    paths:
-      - "aplicacao/**"
+    branches: [main]
 
 jobs:
-  build_and_tests:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build app
         run: docker-compose up -d app
-        env:
-          DB_HOST: localhost
-      - name: Create db
-        run: docker-compose run app rake db:create
-      - name: Make migrations
-        run: docker-compose run app rake db:migrate
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
       - name: Run tests
-        run: docker-compose run app rake test
-      - name: Upload code coverage results
-        uses: actions/upload-artifact@v1
-        with:
-          name: code-coverage-report
-          path: ./app/coverage/.resultset.json
+        run: docker-compose run app bash -c "rake db:reset; rspec"
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run tests
+        run: docker-compose run app bash -c "gem install rubocop; rubocop --fail-level F"
