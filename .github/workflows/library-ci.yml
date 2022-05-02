@@ -14,16 +14,18 @@ jobs:
       - name: Build app
         run: docker-compose up -d app
 
+  lint:
+    runs-on: ubuntu-latest
+    needs: [build]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run lint
+        run: docker-compose run app bash -c "gem install rubocop; rubocop --fail-level F"
+
   test:
     runs-on: ubuntu-latest
+    needs: [lint]
     steps:
       - uses: actions/checkout@v3
       - name: Run tests
         run: docker-compose run app bash -c "rake db:reset; rspec"
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Run tests
-        run: docker-compose run app bash -c "gem install rubocop; rubocop --fail-level F"
